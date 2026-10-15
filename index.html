@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#2563eb">
+<title>LaySRT | CapCut JSON → SRT</title>
+<style>
+* { box-sizing: border-box; }
+
+:root {
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --success: #16a34a;
+    --danger: #dc2626;
+    --bg: #f1f5f9;
+    --card: #ffffff;
+    --text: #0f172a;
+    --muted: #64748b;
+    --border: #e2e8f0;
+    --soft: #f8fafc;
+}
+
+body {
+    margin: 0;
+    padding: 14px;
+    padding-left: max(14px, env(safe-area-inset-left));
+    padding-right: max(14px, env(safe-area-inset-right));
+    padding-bottom: max(14px, env(safe-area-inset-bottom));
+    background: var(--bg);
+    color: var(--text);
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+    min-height: 100dvh;
+}
+
+.container {
+    width: 100%;
+    max-width: 900px;
+    margin: auto;
+}
+
+header {
+    color: white;
+    padding: 30px 24px;
+    border-radius: 22px;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #2563eb 0%, #4f46e5 50%, #7c3aed 100%);
+    box-shadow: 0 14px 35px rgba(37, 99, 235, 0.22);
+    text-align: center;
+}
+
+header h1 {
+    margin: 0 0 8px;
+    font-size: clamp(24px, 5vw, 36px);
+    letter-spacing: -0.5px;
+}
+
+header p {
+    margin: 0;
+    opacity: 0.92;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+header .brand-line {
+    margin-bottom: 9px;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1.7px;
+    text-transform: uppercase;
+    opacity: 0.85;
+}
+
+.card {
+    background: var(--card);
+    border-radius: 18px;
+    padding: 22px;
+    margin-bottom: 16px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+
+.card-title {
+    margin: 0 0 18px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.step {
+    background: var(--primary);
+    color: white;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.drop-zone {
+    display: block;
+    border: 2px dashed var(--border);
+    border-radius: 16px;
+    padding: 40px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s;
+    background: var(--soft);
+}
+
+.drop-zone:hover,
+.drop-zone.dragover {
+    border-color: var(--primary);
+    background: #eff6ff;
+}
+
+.drop-icon {
+    font-size: 42px;
+    margin-bottom: 12px;
+}
+
+.drop-title {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.drop-subtitle {
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+#fileInput { display: none; }
+
+.file-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 16px;
+    padding: 12px;
+    background: var(--soft);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+}
+
+.file-icon { font-size: 24px; }
+.file-name { font-weight: 600; font-size: 14px; word-break: break-all; }
+.file-size { color: var(--muted); font-size: 12px; margin-top: 2px; }
+
+.buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+}
+
+.btn-primary, .btn-success, .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 22px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+    text-decoration: none;
+    font-family: inherit;
+}
+
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: var(--primary-dark); }
+.btn-success { background: var(--success); color: white; }
+.btn-success:hover { background: #15803d; }
+.btn-success:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-secondary { background: #e2e8f0; color: var(--text); }
+.btn-secondary:hover { background: #cbd5e1; }
+
+.hidden { display: none !important; }
+
+.status {
+    margin-top: 16px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.status.success { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+.status.error   { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+.status.info    { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+
+.stats {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+}
+
+.stat {
+    flex: 1;
+    min-width: 100px;
+    text-align: center;
+    padding: 12px;
+    background: var(--soft);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+}
+
+.stat-number {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.stat-label {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+}
+
+.preview {
+    margin-top: 16px;
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 14px;
+    border-radius: 12px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    max-height: 220px;
+    overflow: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+    line-height: 1.5;
+}
+
+.footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    padding: 14px 0 4px;
+}
+
+@media (max-width: 600px) {
+    .buttons { flex-direction: column; }
+    .btn-primary, .btn-success, .btn-secondary { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="brand-line">LAYSRT • VIETSUB TOOL</div>
+        <h1>🎬 CapCut JSON → SRT</h1>
+        <p>Chuyển file JSON CapCut thành phụ đề SRT chỉ trong vài giây. Không cần cài đặt, không cần API.</p>
+    </header>
+
+    <section class="card">
+        <h2 class="card-title"><span class="step">1</span> Chọn file CapCut JSON</h2>
+
+        <label class="drop-zone" id="dropZone" for="fileInput" tabindex="0">
+            <div class="drop-icon">📂</div>
+            <div class="drop-title">Kéo thả file JSON vào đây</div>
+            <div class="drop-subtitle">hoặc chạm để chọn file<br>Hỗ trợ draft_content.json và các JSON CapCut tương thích</div>
+        </label>
+
+        <input type="file" id="fileInput" accept=".json,application/json,text/json,text/plain,*/*">
+
+        <div id="fileInfo" class="file-info hidden">
+            <div class="file-icon">📄</div>
+            <div>
+                <div id="fileName" class="file-name"></div>
+                <div id="fileSize" class="file-size"></div>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <label class="btn-primary" for="fileInput">📁 Chọn file JSON</label>
+            <button id="convertBtn" type="button" class="btn-success" disabled>⚙️ Chuyển sang SRT</button>
+            <button id="resetBtn" type="button" class="btn-secondary hidden">🔄 Làm lại</button>
+        </div>
+
+        <div id="status" class="status hidden"></div>
+
+        <div id="stats" class="stats hidden">
+            <div class="stat">
+                <div id="subtitleCount" class="stat-number">0</div>
+                <div class="stat-label">Phụ đề</div>
+            </div>
+            <div class="stat">
+                <div id="durationInfo" class="stat-number">00:00</div>
+                <div class="stat-label">Thời lượng</div>
+            </div>
+        </div>
+
+        <div id="preview" class="preview hidden"></div>
+    </section>
+
+    <div class="footer">Made with ❤️ — chỉ chuyển đổi, không dịch</div>
+</div>
+
+<script>
+/* ============ BIẾN TOÀN CỤC ============ */
+let capcutData = null;
+let subtitles = [];
+
+/* ============ DOM ============ */
+const fileInput   = document.getElementById('fileInput');
+const dropZone    = document.getElementById('dropZone');
+const fileInfo    = document.getElementById('fileInfo');
+const fileName    = document.getElementById('fileName');
+const fileSize    = document.getElementById('fileSize');
+const convertBtn  = document.getElementById('convertBtn');
+const resetBtn    = document.getElementById('resetBtn');
+const statusBox   = document.getElementById('status');
+const statsBox    = document.getElementById('stats');
+const previewBox  = document.getElementById('preview');
+const subtitleCount = document.getElementById('subtitleCount');
+const durationInfo  = document.getElementById('durationInfo');
+
+/* ============ SỰ KIỆN CHỌN FILE ============ */
+fileInput.addEventListener('change', e => {
+    if (e.target.files.length) handleFile(e.target.files[0]);
+});
+
+dropZone.addEventListener('dragover', e => {
+    e.preventDefault();
+    dropZone.classList.add('dragover');
+});
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropZone.classList.remove('dragover');
+    if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+});
+
+/* ============ ĐỌC FILE ============ */
+function handleFile(file) {
+    if (!file) return;
+    resetUI(false);
+
+    fileName.textContent = file.name;
+    fileSize.textContent = formatFileSize(file.size);
+    fileInfo.classList.remove('hidden');
+
+    const reader = new FileReader();
+    reader.onload = ev => {
+        try {
+            capcutData = JSON.parse(ev.target.result);
+            subtitles = extractSubtitles(capcutData);
+
+            if (!subtitles.length) {
+                showStatus('Không tìm thấy phụ đề trong file JSON này. Hãy chắc chắn đây là file draft_content.json của CapCut.', 'error');
+                convertBtn.disabled = true;
+                return;
+            }
+
+            showStatus(`Đã đọc ${subtitles.length} dòng phụ đề. Nhấn "Chuyển sang SRT" để tải về.`, 'success');
+            updateStats(subtitles);
+            convertBtn.disabled = false;
+            resetBtn.classList.remove('hidden');
+        } catch (err) {
+            showStatus('File JSON không hợp lệ: ' + err.message, 'error');
+            convertBtn.disabled = true;
+        }
+    };
+    reader.onerror = () => showStatus('Không đọc được file.', 'error');
+    reader.readAsText(file, 'utf-8');
+}
+
+/* ============ TRÍCH XUẤT PHỤ ĐỀ TỪ CAPCUT JSON ============ */
+function extractSubtitles(data) {
+    const results = [];
+
+    // Cách 1: materials.texts (CapCut PC / draft_content.json)
+    if (data.materials && Array.isArray(data.materials.texts)) {
+        data.materials.texts.forEach(t => {
+            const content = extractTextContent(t);
+            if (!content) return;
+            const start = Number(t.start || 0);
+            const duration = Number(t.duration || 0);
+            results.push({ start, end: start + duration, content });
+        });
+    }
+
+    // Cách 2: dữ liệu nằm trong tracks (một số bản mobile / phiên bản mới)
+    if (!results.length && Array.isArray(data.tracks)) {
+        data.tracks.forEach(track => {
+            if (!Array.isArray(track.segments)) return;
+            track.segments.forEach(seg => {
+                const content = extractTextContent(seg);
+                if (!content) return;
+                const start = Number(seg.target_timerange?.start || seg.start || 0);
+                const duration = Number(seg.target_timerange?.duration || seg.duration || 0);
+                results.push({ start, end: start + duration, content });
+            });
+        });
+    }
+
+    // Cách 3: mảng texts phẳng ở root
+    if (!results.length && Array.isArray(data.texts)) {
+        data.texts.forEach(t => {
+            const content = extractTextContent(t);
+            if (!content) return;
+            const start = Number(t.start || 0);
+            const duration = Number(t.duration || 0);
+            results.push({ start, end: start + duration, content });
+        });
+    }
+
+    // Sắp xếp theo thời gian bắt đầu
+    results.sort((a, b) => a.start - b.start);
+
+    // Gộp trùng / bỏ dòng rỗng
+    return results.filter(r => r.content && r.content.trim() !== '');
+}
+
+function extractTextContent(item) {
+    // CapCut lưu text trong nhiều field khác nhau tùy phiên bản
+    if (item.content) {
+        // content có thể là string JSON chứa "text"
+        if (typeof item.content === 'string') {
+            const trimmed = item.content.trim();
+            if (trimmed.startsWith('{')) {
+                try {
+                    const parsed = JSON.parse(trimmed);
+                    if (parsed.text) return String(parsed.text).trim();
+                } catch (e) { /* không phải JSON */ }
+            }
+            return trimmed;
+        }
+        if (typeof item.content === 'object' && item.content.text) {
+            return String(item.content.text).trim();
+        }
+    }
+    if (item.text) return String(item.text).trim();
+    if (item.words && Array.isArray(item.words)) {
+        // Một số bản CapCut tách chữ theo từ
+        return item.words.map(w => w.text || w.word || '').join('').trim();
+    }
+    return '';
+}
+
+/* ============ TẠO SRT ============ */
+function generateSRT(subs) {
+    let srt = '';
+    subs.forEach((sub, i) => {
+        srt += (i + 1) + '\n';
+        srt += formatTime(sub.start) + ' --> ' + formatTime(sub.end) + '\n';
+        srt += sub.content + '\n\n';
+    });
+    return srt;
+}
+
+function formatTime(ms) {
+    if (ms < 0) ms = 0;
+    const totalSec = Math.floor(ms / 1000);
+    const h  = String(Math.floor(totalSec / 3600)).padStart(2, '0');
+    const m  = String(Math.floor((totalSec % 3600) / 60)).padStart(2, '0');
+    const s  = String(totalSec % 60).padStart(2, '0');
+    const msPart = String(Math.round(ms % 1000)).padStart(3, '0').slice(0, 3);
+    return `${h}:${m}:${s},${msPart}`;
+}
+
+/* ============ NÚT CHUYỂN SRT ============ */
+convertBtn.addEventListener('click', () => {
+    if (!subtitles.length) return;
+
+    const srt = generateSRT(subtitles);
+
+    // Tên file: ưu tiên tên gốc + .srt
+    const baseName = (fileName.textContent || 'draft_content').replace(/\.json$/i, '');
+    downloadFile(srt, baseName + '.srt');
+
+    showStatus(`✅ Đã tạo file ${baseName}.srt với ${subtitles.length} dòng phụ đề.`, 'success');
+});
+
+function downloadFile(content, filename) {
+    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+/* ============ NÚT LÀM LẠI ============ */
+resetBtn.addEventListener('click', () => {
+    resetUI(true);
+});
+
+function resetUI(clearFileInput) {
+    capcutData = null;
+    subtitles = [];
+    convertBtn.disabled = true;
+    statusBox.classList.add('hidden');
+    statsBox.classList.add('hidden');
+    previewBox.classList.add('hidden');
+    fileInfo.classList.add('hidden');
+    resetBtn.classList.add('hidden');
+    if (clearFileInput) {
+        fileInput.value = '';
+    }
+}
+
+/* ============ HIỂN THỊ ============ */
+function showStatus(msg, type) {
+    statusBox.textContent = msg;
+    statusBox.className = 'status ' + type;
+    statusBox.classList.remove('hidden');
+}
+
+function updateStats(subs) {
+    subtitleCount.textContent = subs.length;
+    const totalMs = subs.reduce((max, s) => Math.max(max, s.end), 0);
+    durationInfo.textContent = formatDuration(totalMs);
+    statsBox.classList.remove('hidden');
+
+    // Preview 15 dòng đầu
+    const preview = generateSRT(subs.slice(0, 15));
+    previewBox.textContent = preview + (subs.length > 15 ? `\n... (còn ${subs.length - 15} dòng nữa)` : '');
+    previewBox.classList.remove('hidden');
+}
+
+function formatDuration(ms) {
+    const totalSec = Math.floor(ms / 1000);
+    const h = Math.floor(totalSec / 3600);
+    const m = Math.floor((totalSec % 3600) / 60);
+    const s = totalSec % 60;
+    if (h > 0) return `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+
+function formatFileSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+}
+</script>
+</body>
+</html>
