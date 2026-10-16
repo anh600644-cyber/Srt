@@ -3,52 +3,101 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#0f172a">
-<title>LaySRT Pro | CapCut JSON → SRT</title>
+<meta name="theme-color" content="#1a0b2e">
+<title>LaySRT Cosmos | CapCut JSON → SRT</title>
 <style>
 * { box-sizing: border-box; }
 
 :root {
-    --bg: #0f172a;
-    --card: #1e293b;
-    --card-hover: #334155;
-    --text: #f8fafc;
-    --text-muted: #94a3b8;
-    --primary: #10b981;
-    --primary-hover: #059669;
-    --border: #334155;
-    --danger: #ef4444;
-    --warning: #f59e0b;
+    --bg-deep: #0a0118;
+    --bg-purple: #1a0b2e;
+    --bg-purple-light: #2d1b4e;
+    --card: rgba(20, 10, 40, 0.85);
+    --card-inner: #0d0520;
+    --border-outer: #2a2a3e;
+    --border-inner: #1a1a2e;
+    --text: #f0e8ff;
+    --text-muted: #a89bc4;
+    --primary: #a855f7;
+    --primary-hover: #c084fc;
+    --primary-glow: rgba(168, 85, 247, 0.4);
+    --accent: #7c3aed;
+    --success: #4ade80;
+    --danger: #f87171;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
 }
 
 body {
-    margin: 0;
     padding: 20px;
     padding-left: max(20px, env(safe-area-inset-left));
     padding-right: max(20px, env(safe-area-inset-right));
-    background: var(--bg);
+    padding-bottom: max(20px, env(safe-area-inset-bottom));
     color: var(--text);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     min-height: 100vh;
+    min-height: 100dvh;
+    background-color: var(--bg-deep);
+    background-image:
+        radial-gradient(1px 1px at 5% 10%, #ffffff, transparent),
+        radial-gradient(1px 1px at 15% 25%, #ffffff, transparent),
+        radial-gradient(1.5px 1.5px at 25% 5%, #ffffff, transparent),
+        radial-gradient(1px 1px at 35% 45%, #e0d0ff, transparent),
+        radial-gradient(1px 1px at 45% 15%, #ffffff, transparent),
+        radial-gradient(1.5px 1.5px at 55% 35%, #ffffff, transparent),
+        radial-gradient(1px 1px at 65% 60%, #e0d0ff, transparent),
+        radial-gradient(1px 1px at 75% 20%, #ffffff, transparent),
+        radial-gradient(1.5px 1.5px at 85% 50%, #ffffff, transparent),
+        radial-gradient(1px 1px at 95% 30%, #e0d0ff, transparent),
+        radial-gradient(1px 1px at 10% 65%, #ffffff, transparent),
+        radial-gradient(1px 1px at 22% 80%, #ffffff, transparent),
+        radial-gradient(1.5px 1.5px at 40% 90%, #e0d0ff, transparent),
+        radial-gradient(1px 1px at 55% 75%, #ffffff, transparent),
+        radial-gradient(1px 1px at 70% 95%, #ffffff, transparent),
+        radial-gradient(1.5px 1.5px at 82% 72%, #e0d0ff, transparent),
+        radial-gradient(1px 1px at 92% 88%, #ffffff, transparent),
+        radial-gradient(1px 1px at 30% 55%, #ffffff, transparent),
+        radial-gradient(1px 1px at 60% 5%, #ffffff, transparent),
+        radial-gradient(1px 1px at 48% 68%, #e0d0ff, transparent),
+        radial-gradient(ellipse at 20% 0%, rgba(124, 58, 237, 0.35) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 100%, rgba(168, 85, 247, 0.25) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(45, 27, 78, 0.6) 0%, transparent 70%),
+        linear-gradient(180deg, #0a0118 0%, #1a0b2e 50%, #0a0118 100%);
+    background-attachment: fixed;
+    background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%,
+                     100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%,
+                     100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%,
+                     100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%,
+                     100% 100%, 100% 100%, 100% 100%, 100% 100%;
+    background-repeat: no-repeat;
 }
 
 .app-container {
-    max-width: 1200px;
+    max-width: 1100px;
     margin: 0 auto;
 }
 
+/* ==== HEADER ==== */
 header {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 24px;
+    padding: 20px;
 }
 
 header h1 {
     margin: 0 0 8px;
-    font-size: clamp(24px, 4vw, 32px);
-    background: linear-gradient(135deg, #10b981, #3b82f6);
+    font-size: clamp(26px, 4vw, 36px);
+    background: linear-gradient(135deg, #c084fc, #a855f7, #7c3aed);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
     font-weight: 800;
+    letter-spacing: -0.5px;
+    filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.5));
 }
 
 header p {
@@ -57,86 +106,98 @@ header p {
     font-size: 14px;
 }
 
-/* Bố cục 2 cột */
-.main-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    align-items: start;
-}
-
-@media (max-width: 900px) {
-    .main-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-.card {
-    background: var(--card);
-    border-radius: 16px;
-    padding: 24px;
-    border: 1px solid var(--border);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-}
-
-.card-title {
-    margin: 0 0 16px;
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--text);
+/* ==== BỐ CỤC 2 KHUNG TRÊN DƯỚI ==== */
+.main-stack {
     display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* ==== KHUNG (viền ngoài đen xám, nền tím đen) ==== */
+.frame {
+    border: 3px solid var(--border-outer);
+    border-radius: 20px;
+    padding: 8px;
+    background: linear-gradient(135deg, rgba(42, 42, 62, 0.9), rgba(26, 26, 46, 0.9));
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05);
+    position: relative;
+}
+
+.frame::before {
+    content: "";
+    position: absolute;
+    inset: 3px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), transparent 40%);
+    pointer-events: none;
+}
+
+.frame-inner {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 22px;
+    border: 1px solid var(--border-inner);
+    backdrop-filter: blur(10px);
+    position: relative;
+    z-index: 1;
+}
+
+.frame-label {
+    display: inline-flex;
     align-items: center;
     gap: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 14px;
+    padding: 6px 14px;
+    background: rgba(168, 85, 247, 0.1);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    border-radius: 20px;
+    box-shadow: 0 0 20px var(--primary-glow);
 }
 
-.step {
+.frame-label .num {
     background: var(--primary);
     color: #fff;
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
-    font-weight: bold;
+    font-size: 11px;
+    font-weight: 800;
 }
 
+/* ==== DROP ZONE ==== */
 .drop-zone {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 2px dashed var(--border);
-    border-radius: 12px;
-    padding: 40px 20px;
+    border: 2px dashed rgba(168, 85, 247, 0.4);
+    border-radius: 14px;
+    padding: 38px 20px;
     text-align: center;
     cursor: pointer;
-    transition: all 0.2s;
-    background: rgba(255,255,255,0.02);
-    min-height: 180px;
+    transition: all 0.25s;
+    background: rgba(168, 85, 247, 0.03);
+    min-height: 160px;
 }
 
 .drop-zone:hover, .drop-zone.dragover {
     border-color: var(--primary);
-    background: rgba(16, 185, 129, 0.05);
+    background: rgba(168, 85, 247, 0.1);
+    box-shadow: 0 0 30px var(--primary-glow);
+    transform: translateY(-2px);
 }
 
-.drop-icon {
-    font-size: 36px;
-    margin-bottom: 12px;
-}
-
-.drop-title {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 4px;
-}
-
-.drop-subtitle {
-    color: var(--text-muted);
-    font-size: 13px;
-}
+.drop-icon { font-size: 38px; margin-bottom: 10px; }
+.drop-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+.drop-subtitle { color: var(--text-muted); font-size: 13px; }
 
 #fileInput { display: none; }
 
@@ -144,15 +205,15 @@ header p {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-top: 16px;
+    margin-top: 14px;
     padding: 12px;
-    background: rgba(255,255,255,0.03);
+    background: rgba(168, 85, 247, 0.08);
     border-radius: 10px;
-    border: 1px solid var(--border);
+    border: 1px solid rgba(168, 85, 247, 0.2);
 }
 
 .file-icon { font-size: 20px; }
-.file-name { font-weight: 600; font-size: 13px; word-break: break-all; }
+.file-name { font-weight: 600; font-size: 13px; word-break: break-all; color: var(--text); }
 .file-size { color: var(--text-muted); font-size: 12px; margin-top: 2px; }
 
 .actions {
@@ -167,8 +228,8 @@ header p {
     align-items: center;
     justify-content: center;
     gap: 6px;
-    padding: 10px 18px;
-    border-radius: 8px;
+    padding: 11px 20px;
+    border-radius: 10px;
     font-size: 14px;
     font-weight: 600;
     border: none;
@@ -178,29 +239,40 @@ header p {
     font-family: inherit;
 }
 
-.btn-primary { background: var(--primary); color: #fff; }
-.btn-primary:hover { background: var(--primary-hover); }
-.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
-.btn-secondary { background: var(--border); color: var(--text); }
-.btn-secondary:hover { background: var(--card-hover); }
-.btn-danger { background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.3); }
-.btn-danger:hover { background: rgba(239, 68, 68, 0.2); }
+.btn-primary {
+    background: linear-gradient(135deg, #a855f7, #7c3aed);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: linear-gradient(135deg, #c084fc, #a855f7);
+    box-shadow: 0 6px 25px rgba(168, 85, 247, 0.6);
+    transform: translateY(-1px);
+}
+
+.btn-primary:disabled { opacity: 0.35; cursor: not-allowed; }
+
+.btn-secondary {
+    background: rgba(255,255,255,0.06);
+    color: var(--text);
+    border: 1px solid var(--border-outer);
+}
+
+.btn-secondary:hover { background: rgba(255,255,255,0.12); }
 
 .hidden { display: none !important; }
 
 .status {
     margin-top: 14px;
-    padding: 10px 14px;
-    border-radius: 8px;
+    padding: 11px 16px;
+    border-radius: 10px;
     font-size: 13px;
     line-height: 1.5;
-    display: flex;
-    align-items: center;
-    gap: 8px;
 }
 
-.status.success { background: rgba(16, 185, 129, 0.1); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.2); }
-.status.error { background: rgba(239, 68, 68, 0.1); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.2); }
+.status.success { background: rgba(74, 222, 128, 0.1); color: var(--success); border: 1px solid rgba(74, 222, 128, 0.3); }
+.status.error { background: rgba(248, 113, 113, 0.1); color: var(--danger); border: 1px solid rgba(248, 113, 113, 0.3); }
 
 .stats {
     display: flex;
@@ -211,16 +283,19 @@ header p {
 .stat {
     flex: 1;
     text-align: center;
-    padding: 12px;
-    background: rgba(255,255,255,0.03);
-    border-radius: 10px;
-    border: 1px solid var(--border);
+    padding: 14px;
+    background: rgba(168, 85, 247, 0.06);
+    border-radius: 12px;
+    border: 1px solid rgba(168, 85, 247, 0.2);
 }
 
 .stat-number {
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--primary);
+    font-size: 24px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #c084fc, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .stat-label {
@@ -228,50 +303,32 @@ header p {
     color: var(--text-muted);
     margin-top: 4px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
 }
 
-/* Khung xem trước SRT */
-.preview-box {
-    background: #020617;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 16px;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 13px;
-    line-height: 1.6;
-    color: #e2e8f0;
-    max-height: 500px;
-    overflow-y: auto;
-    white-space: pre-wrap;
-    word-break: break-word;
-}
-
+/* ==== KHUNG XEM TRƯỚC SRT ==== */
 .preview-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--border);
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
-.preview-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text);
-    display: flex;
-    align-items: center;
-    gap: 6px;
+.preview-meta {
+    color: var(--text-muted);
+    font-size: 12px;
 }
 
 .copy-btn {
-    background: rgba(255,255,255,0.05);
-    border: 1px solid var(--border);
-    color: var(--text-muted);
-    padding: 6px 12px;
-    border-radius: 6px;
+    background: rgba(168, 85, 247, 0.15);
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    color: var(--primary-hover);
+    padding: 7px 14px;
+    border-radius: 8px;
     font-size: 12px;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
     font-family: inherit;
@@ -280,7 +337,71 @@ header p {
 .copy-btn:hover {
     background: var(--primary);
     color: #fff;
-    border-color: var(--primary);
+    box-shadow: 0 0 20px var(--primary-glow);
+}
+
+.preview-box {
+    background: var(--card-inner);
+    border: 1px solid rgba(168, 85, 247, 0.15);
+    border-radius: 12px;
+    padding: 18px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #d8d0e8;
+    max-height: 600px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+    box-shadow: inset 0 0 40px rgba(168, 85, 247, 0.05);
+}
+
+/* Scrollbar vũ trụ - to hơn */
+.preview-box::-webkit-scrollbar { width: 18px; }
+.preview-box::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.4);
+    border-radius: 10px;
+    margin: 6px 0;
+}
+.preview-box::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #7c3aed, #a855f7);
+    border-radius: 10px;
+    border: 3px solid var(--card-inner);
+    min-height: 50px;
+    box-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
+}
+.preview-box::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #a855f7, #c084fc);
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.9);
+}
+
+.srt-line-num {
+    color: #7c3aed;
+    font-weight: 700;
+}
+
+.srt-time {
+    color: #a855f7;
+    font-weight: 600;
+}
+
+.srt-text {
+    color: #e0d8f0;
+}
+
+.empty-msg {
+    color: var(--text-muted);
+    font-style: italic;
+    text-align: center;
+    padding: 40px 20px;
+    font-family: -apple-system, sans-serif;
+}
+
+.empty-msg .icon {
+    display: block;
+    font-size: 42px;
+    margin-bottom: 12px;
+    opacity: 0.5;
 }
 
 .footer {
@@ -288,6 +409,15 @@ header p {
     color: var(--text-muted);
     font-size: 12px;
     padding: 30px 0 10px;
+    opacity: 0.7;
+}
+
+@media (max-width: 600px) {
+    .actions { flex-direction: column; }
+    .btn { width: 100%; }
+    .frame-inner { padding: 16px; }
+    .preview-box { max-height: 450px; font-size: 12px; }
+    .preview-box::-webkit-scrollbar { width: 14px; }
 }
 </style>
 </head>
@@ -295,20 +425,21 @@ header p {
 
 <div class="app-container">
     <header>
-        <h1>🎬 LaySRT Pro</h1>
-        <p>Chuyển file JSON CapCut thành phụ đề SRT chuẩn xác. Không quảng cáo, không theo dõi.</p>
+        <h1>🌌 LaySRT Cosmos</h1>
+        <p>Chuyển file JSON CapCut thành phụ đề SRT chuẩn xác — giữa muôn vì sao</p>
     </header>
 
-    <div class="main-grid">
-        <!-- CỘT TRÁI: TẢI FILE VÀ CẤU HÌNH -->
-        <div class="left-column">
-            <section class="card">
-                <h2 class="card-title"><span class="step">1</span> Chọn file CapCut JSON</h2>
+    <div class="main-stack">
+
+        <!-- ==== KHUNG TRÊN: TẢI FILE ==== -->
+        <div class="frame">
+            <div class="frame-inner">
+                <div class="frame-label"><span class="num">1</span> Tải file CapCut JSON</div>
 
                 <label class="drop-zone" id="dropZone" for="fileInput" tabindex="0">
-                    <div class="drop-icon">📂</div>
+                    <div class="drop-icon">🌠</div>
                     <div class="drop-title">Kéo thả file JSON vào đây</div>
-                    <div class="drop-subtitle">hoặc chạm để chọn file<br>Hỗ trợ draft_content.json</div>
+                    <div class="drop-subtitle">hoặc chạm để chọn file — hỗ trợ draft_content.json</div>
                 </label>
 
                 <input type="file" id="fileInput" accept=".json,application/json,text/json,text/plain,*/*">
@@ -339,33 +470,38 @@ header p {
                         <div class="stat-label">Thời lượng</div>
                     </div>
                 </div>
-            </section>
+            </div>
         </div>
 
-        <!-- CỘT PHẢI: XEM TRƯỚC SRT -->
-        <div class="right-column">
-            <section class="card">
+        <!-- ==== KHUNG DƯỚI: XEM TRƯỚC SRT ==== -->
+        <div class="frame">
+            <div class="frame-inner">
+                <div class="frame-label"><span class="num">2</span> Xem trước file SRT</div>
+
                 <div class="preview-header">
-                    <div class="preview-title">👁️ Xem trước file SRT</div>
+                    <div id="previewMeta" class="preview-meta">Chưa có dữ liệu</div>
                     <button id="copyBtn" class="copy-btn hidden" onclick="copySRT()">📋 Copy toàn bộ</button>
                 </div>
+
                 <div id="preview" class="preview-box">
-                    <span style="color: var(--text-muted); font-style: italic;">Chưa có dữ liệu. Hãy tải file JSON lên để xem trước...</span>
+                    <div class="empty-msg">
+                        <span class="icon">✨</span>
+                        Chưa có dữ liệu. Hãy tải file JSON lên để xem trước toàn bộ phụ đề...
+                    </div>
                 </div>
-            </section>
+            </div>
         </div>
+
     </div>
 
-    <div class="footer">Made with ❤️ — LaySRT Pro</div>
+    <div class="footer">Made with 💜 — LaySRT Cosmos</div>
 </div>
 
 <script>
-/* ============ BIẾN TOÀN CỤC ============ */
 let capcutData = null;
 let subtitles = [];
 let fullSRT = "";
 
-/* ============ DOM ============ */
 const fileInput   = document.getElementById('fileInput');
 const dropZone    = document.getElementById('dropZone');
 const fileInfo    = document.getElementById('fileInfo');
@@ -376,19 +512,16 @@ const resetBtn    = document.getElementById('resetBtn');
 const statusBox   = document.getElementById('status');
 const statsBox    = document.getElementById('stats');
 const previewBox  = document.getElementById('preview');
+const previewMeta = document.getElementById('previewMeta');
 const copyBtn     = document.getElementById('copyBtn');
 const subtitleCount = document.getElementById('subtitleCount');
 const durationInfo  = document.getElementById('durationInfo');
 
-/* ============ SỰ KIỆN CHỌN FILE ============ */
 fileInput.addEventListener('change', e => {
     if (e.target.files.length) handleFile(e.target.files[0]);
 });
 
-dropZone.addEventListener('dragover', e => {
-    e.preventDefault();
-    dropZone.classList.add('dragover');
-});
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
 dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
 dropZone.addEventListener('drop', e => {
     e.preventDefault();
@@ -396,7 +529,6 @@ dropZone.addEventListener('drop', e => {
     if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
 });
 
-/* ============ ĐỌC FILE ============ */
 function handleFile(file) {
     if (!file) return;
     resetUI(false);
@@ -420,9 +552,8 @@ function handleFile(file) {
             showStatus(`Đã đọc ${subtitles.length} dòng phụ đề. Nhấn "Xuất file SRT" để tải về.`, 'success');
             updateStats(subtitles);
             
-            // Tạo sẵn SRT và hiển thị lên khung xem trước
             fullSRT = generateSRT(subtitles);
-            updatePreview(fullSRT);
+            renderFullPreview(subtitles);
             
             convertBtn.disabled = false;
             resetBtn.classList.remove('hidden');
@@ -436,34 +567,25 @@ function handleFile(file) {
     reader.readAsText(file, 'utf-8');
 }
 
-/* ============ TRÍCH XUẤT PHỤ ĐỀ TỪ CAPCUT JSON ============ */
 function extractSubtitles(data) {
     const results = [];
     const textMap = {};
 
-    // 1. Lưu tất cả nội dung chữ vào một Map theo ID
     if (data.materials && Array.isArray(data.materials.texts)) {
         data.materials.texts.forEach(t => {
             const content = extractTextContent(t);
-            if (content) {
-                textMap[t.id] = content;
-            }
+            if (content) textMap[t.id] = content;
         });
     }
 
-    // 2. Quét qua các tracks để lấy thời gian và liên kết với chữ
     if (Array.isArray(data.tracks)) {
         data.tracks.forEach(track => {
-            // Chỉ xử lý các track chứa chữ (text hoặc subtitle)
             if ((track.type === 'text' || track.type === 'subtitle') && Array.isArray(track.segments)) {
                 track.segments.forEach(seg => {
                     const content = textMap[seg.material_id];
                     if (!content) return;
 
-                    // CapCut lưu thời gian bằng micro-giây
-                    let start = 0;
-                    let duration = 0;
-
+                    let start = 0, duration = 0;
                     if (seg.target_timerange) {
                         start = Number(seg.target_timerange.start || 0);
                         duration = Number(seg.target_timerange.duration || 0);
@@ -472,9 +594,9 @@ function extractSubtitles(data) {
                         duration = Number(seg.source_timerange.duration || 0);
                     }
 
-                    // Chuyển từ micro-giây sang mili-giây, làm tròn để khớp với file gốc
-                    const startMs = Math.round(start / 1000);
-                    const durationMs = Math.round(duration / 1000);
+                    // Math.floor để khớp chuẩn SRT (không làm tròn lên gây lệch 1ms)
+                    const startMs = Math.floor(start / 1000);
+                    const durationMs = Math.floor(duration / 1000);
 
                     results.push({
                         start: startMs,
@@ -486,21 +608,17 @@ function extractSubtitles(data) {
         });
     }
 
-    // 3. Dự phòng cho các file JSON cũ hoặc cấu trúc khác
     if (results.length === 0 && data.materials && Array.isArray(data.materials.texts)) {
         data.materials.texts.forEach(t => {
             const content = extractTextContent(t);
             if (!content) return;
-            const start = Math.round(Number(t.start || 0) / 1000);
-            const duration = Math.round(Number(t.duration || 0) / 1000);
+            const start = Math.floor(Number(t.start || 0) / 1000);
+            const duration = Math.floor(Number(t.duration || 0) / 1000);
             results.push({ start, end: start + duration, content });
         });
     }
 
-    // Sắp xếp theo thời gian bắt đầu
     results.sort((a, b) => a.start - b.start);
-
-    // Lọc bỏ các dòng rỗng
     return results.filter(r => r.content && r.content.trim() !== '');
 }
 
@@ -512,7 +630,7 @@ function extractTextContent(item) {
                 try {
                     const parsed = JSON.parse(trimmed);
                     if (parsed.text) return String(parsed.text).trim();
-                } catch (e) { /* không phải JSON */ }
+                } catch (e) {}
             }
             return trimmed;
         }
@@ -527,7 +645,6 @@ function extractTextContent(item) {
     return '';
 }
 
-/* ============ TẠO SRT ============ */
 function generateSRT(subs) {
     let srt = '';
     subs.forEach((sub, i) => {
@@ -544,31 +661,34 @@ function formatTime(ms) {
     const h  = String(Math.floor(totalSec / 3600)).padStart(2, '0');
     const m  = String(Math.floor((totalSec % 3600) / 60)).padStart(2, '0');
     const s  = String(totalSec % 60).padStart(2, '0');
-    const msPart = String(ms % 1000).padStart(3, '0');
+    const msPart = String(Math.floor(ms % 1000)).padStart(3, '0');
     return `${h}:${m}:${s},${msPart}`;
 }
 
-/* ============ CẬP NHẬT GIAO DIỆN XEM TRƯỚC ============ */
-function updatePreview(srtContent) {
-    // Hiển thị 20 dòng đầu để tránh lag trình duyệt
-    const lines = srtContent.split('\n');
-    const previewText = lines.slice(0, 60).join('\n');
-    const suffix = lines.length > 60 ? '\n\n... (còn rất nhiều dòng nữa, hãy bấm Xuất file SRT để tải toàn bộ)' : '';
-    
-    previewBox.innerHTML = `<span style="color:#34d399;">${escapeHtml(previewText)}</span>${suffix ? `<span style="color:var(--text-muted);">${escapeHtml(suffix)}</span>` : ''}`;
+/* ==== HIỂN THỊ TOÀN BỘ SRT (có màu) ==== */
+function renderFullPreview(subs) {
+    const html = subs.map((sub, i) => {
+        const num = `<span class="srt-line-num">${i + 1}</span>`;
+        const time = `<span class="srt-time">${formatTime(sub.start)} --&gt; ${formatTime(sub.end)}</span>`;
+        const text = `<span class="srt-text">${escapeHtml(sub.content)}</span>`;
+        return `${num}\n${time}\n${text}`;
+    }).join('\n\n');
+
+    previewBox.innerHTML = html;
+    previewMeta.textContent = `Tổng cộng ${subs.length} dòng phụ đề`;
 }
 
 function escapeHtml(text) {
-    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
 }
 
-/* ============ NÚT XUẤT SRT ============ */
 convertBtn.addEventListener('click', () => {
     if (!subtitles.length) return;
-
     const baseName = (fileName.textContent || 'draft_content').replace(/\.json$/i, '');
     downloadFile(fullSRT, baseName + '.srt');
-
     showStatus(`✅ Đã tạo file ${baseName}.srt với ${subtitles.length} dòng phụ đề.`, 'success');
 });
 
@@ -584,28 +704,16 @@ function downloadFile(content, filename) {
     setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-/* ============ NÚT COPY ============ */
 function copySRT() {
     if (!fullSRT) return;
     navigator.clipboard.writeText(fullSRT).then(() => {
         const originalText = copyBtn.textContent;
         copyBtn.textContent = '✅ Đã copy!';
-        copyBtn.style.background = 'var(--primary)';
-        copyBtn.style.color = '#fff';
-        setTimeout(() => {
-            copyBtn.textContent = originalText;
-            copyBtn.style.background = '';
-            copyBtn.style.color = '';
-        }, 2000);
-    }).catch(err => {
-        alert('Không thể copy: ' + err);
-    });
+        setTimeout(() => { copyBtn.textContent = originalText; }, 2000);
+    }).catch(err => alert('Không thể copy: ' + err));
 }
 
-/* ============ NÚT LÀM LẠI ============ */
-resetBtn.addEventListener('click', () => {
-    resetUI(true);
-});
+resetBtn.addEventListener('click', () => resetUI(true));
 
 function resetUI(clearFileInput) {
     capcutData = null;
@@ -617,13 +725,11 @@ function resetUI(clearFileInput) {
     fileInfo.classList.add('hidden');
     resetBtn.classList.add('hidden');
     copyBtn.classList.add('hidden');
-    previewBox.innerHTML = '<span style="color: var(--text-muted); font-style: italic;">Chưa có dữ liệu. Hãy tải file JSON lên để xem trước...</span>';
-    if (clearFileInput) {
-        fileInput.value = '';
-    }
+    previewMeta.textContent = 'Chưa có dữ liệu';
+    previewBox.innerHTML = `<div class="empty-msg"><span class="icon">✨</span>Chưa có dữ liệu. Hãy tải file JSON lên để xem trước toàn bộ phụ đề...</div>`;
+    if (clearFileInput) fileInput.value = '';
 }
 
-/* ============ HIỂN THỊ ============ */
 function showStatus(msg, type) {
     statusBox.textContent = msg;
     statusBox.className = 'status ' + type;
