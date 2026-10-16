@@ -12,7 +12,6 @@
     --primary: #2563eb;
     --primary-dark: #1d4ed8;
     --success: #16a34a;
-    --danger: #dc2626;
     --bg: #f1f5f9;
     --card: #ffffff;
     --text: #0f172a;
@@ -377,38 +376,60 @@ function handleFile(file) {
     reader.readAsText(file, 'utf-8');
 }
 
-/* ============ TRÍCH XUẤT PHỤ ĐỀ TỪ CAPCUT JSON ============ */
+/* ============ TRÍCH XUẤT PHỤ ĐỀ TỪ CAPCUT JSON (FIX LỖI THỜI GIAN) ============ */
 function extractSubtitles(data) {
     const results = [];
+    const textMap = {};
 
-    // Cách 1: materials.texts (CapCut PC / draft_content.json)
+    // 1. Lưu tất cả nội dung chữ vào một Map theo ID
     if (data.materials && Array.isArray(data.materials.texts)) {
         data.materials.texts.forEach(t => {
             const content = extractTextContent(t);
-            if (!content) return;
-            const start = Number(t.start || 0);
-            const duration = Number(t.duration || 0);
-            results.push({ start, end: start + duration, content });
+            if (content) {
+                textMap[t.id] = content;
+            }
         });
     }
 
-    // Cách 2: dữ liệu nằm trong tracks (một số bản mobile / phiên bản mới)
-    if (!results.length && Array.isArray(data.tracks)) {
+    // 2. Quét qua các tracks để lấy thời gian và liên kết với chữ
+    if (Array.isArray(data.tracks)) {
         data.tracks.forEach(track => {
-            if (!Array.isArray(track.segments)) return;
-            track.segments.forEach(seg => {
-                const content = extractTextContent(seg);
-                if (!content) return;
-                const start = Number(seg.target_timerange?.start || seg.start || 0);
-                const duration = Number(seg.target_timerange?.duration || seg.duration || 0);
-                results.push({ start, end: start + duration, content });
-            });
+            // Chỉ xử lý các track chứa chữ (text)
+            if ((track.type === 'text' || track.type === 'subtitle') && Array.isArray(track.segments)) {
+                track.segments.forEach(seg => {
+                    const content = textMap[seg.material_id];
+                    if (!content) return;
+
+                    // CapCut lưu thời gian bằng micro-giây (1 giây = 1.000.000)
+                    // Cần chia cho 1000 để đổi sang mili-giây cho chuẩn SRT
+                    let start = 0;
+                    let duration = 0;
+
+                    if (seg.target_timerange) {
+                        start = Number(seg.target_timerange.start || 0);
+                        duration = Number(seg.target_timerange.duration || 0);
+                    } else if (seg.source_timerange) {
+                        start = Number(seg.source_timerange.start || 0);
+                        duration = Number(seg.source_timerange.duration || 0);
+                    }
+
+                    // Đổi từ micro-giây sang mili-giây
+                    start = Math.floor(start / 1000);
+                    duration = Math.floor(duration / 1000);
+
+                    results.push({
+                        start: start,
+                        end: start + duration,
+                        content: content
+                    });
+                });
+            }
         });
     }
 
-    // Cách 3: mảng texts phẳng ở root
-    if (!results.length && Array.isArray(data.texts)) {
-        data.texts.forEach(t => {
+    // 3. Dự phòng cho các file JSON cũ hoặc cấu trúc khác (nếu cách trên không tìm thấy gì)
+    if (results.length === 0 && data.materials && Array.isArray(data.materials.texts)) {
+        data.materials.texts.forEach(t => {
             const content = extractTextContent(t);
             if (!content) return;
             const start = Number(t.start || 0);
@@ -420,7 +441,7 @@ function extractSubtitles(data) {
     // Sắp xếp theo thời gian bắt đầu
     results.sort((a, b) => a.start - b.start);
 
-    // Gộp trùng / bỏ dòng rỗng
+    // Lọc bỏ các dòng rỗng
     return results.filter(r => r.content && r.content.trim() !== '');
 }
 
