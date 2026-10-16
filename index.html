@@ -3,136 +3,139 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#2563eb">
-<title>LaySRT | CapCut JSON → SRT</title>
+<meta name="theme-color" content="#0f172a">
+<title>LaySRT Pro | CapCut JSON → SRT</title>
 <style>
 * { box-sizing: border-box; }
 
 :root {
-    --primary: #2563eb;
-    --primary-dark: #1d4ed8;
-    --success: #16a34a;
-    --bg: #f1f5f9;
-    --card: #ffffff;
-    --text: #0f172a;
-    --muted: #64748b;
-    --border: #e2e8f0;
-    --soft: #f8fafc;
+    --bg: #0f172a;
+    --card: #1e293b;
+    --card-hover: #334155;
+    --text: #f8fafc;
+    --text-muted: #94a3b8;
+    --primary: #10b981;
+    --primary-hover: #059669;
+    --border: #334155;
+    --danger: #ef4444;
+    --warning: #f59e0b;
 }
 
 body {
     margin: 0;
-    padding: 14px;
-    padding-left: max(14px, env(safe-area-inset-left));
-    padding-right: max(14px, env(safe-area-inset-right));
-    padding-bottom: max(14px, env(safe-area-inset-bottom));
+    padding: 20px;
+    padding-left: max(20px, env(safe-area-inset-left));
+    padding-right: max(20px, env(safe-area-inset-right));
     background: var(--bg);
     color: var(--text);
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     min-height: 100vh;
-    min-height: 100dvh;
 }
 
-.container {
-    width: 100%;
-    max-width: 900px;
-    margin: auto;
+.app-container {
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 header {
-    color: white;
-    padding: 30px 24px;
-    border-radius: 22px;
-    margin-bottom: 16px;
-    background: linear-gradient(135deg, #2563eb 0%, #4f46e5 50%, #7c3aed 100%);
-    box-shadow: 0 14px 35px rgba(37, 99, 235, 0.22);
     text-align: center;
+    margin-bottom: 30px;
 }
 
 header h1 {
     margin: 0 0 8px;
-    font-size: clamp(24px, 5vw, 36px);
-    letter-spacing: -0.5px;
+    font-size: clamp(24px, 4vw, 32px);
+    background: linear-gradient(135deg, #10b981, #3b82f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 800;
 }
 
 header p {
     margin: 0;
-    opacity: 0.92;
-    line-height: 1.6;
+    color: var(--text-muted);
     font-size: 14px;
 }
 
-header .brand-line {
-    margin-bottom: 9px;
-    font-size: 12px;
-    font-weight: bold;
-    letter-spacing: 1.7px;
-    text-transform: uppercase;
-    opacity: 0.85;
+/* Bố cục 2 cột */
+.main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+@media (max-width: 900px) {
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .card {
     background: var(--card);
-    border-radius: 18px;
-    padding: 22px;
-    margin-bottom: 16px;
+    border-radius: 16px;
+    padding: 24px;
     border: 1px solid var(--border);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 
 .card-title {
-    margin: 0 0 18px;
-    font-size: 18px;
+    margin: 0 0 16px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
 }
 
 .step {
     background: var(--primary);
-    color: white;
-    width: 26px;
-    height: 26px;
+    color: #fff;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 13px;
-    font-weight: 700;
+    font-size: 12px;
+    font-weight: bold;
 }
 
 .drop-zone {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     border: 2px dashed var(--border);
-    border-radius: 16px;
+    border-radius: 12px;
     padding: 40px 20px;
     text-align: center;
     cursor: pointer;
-    transition: 0.2s;
-    background: var(--soft);
+    transition: all 0.2s;
+    background: rgba(255,255,255,0.02);
+    min-height: 180px;
 }
 
-.drop-zone:hover,
-.drop-zone.dragover {
+.drop-zone:hover, .drop-zone.dragover {
     border-color: var(--primary);
-    background: #eff6ff;
+    background: rgba(16, 185, 129, 0.05);
 }
 
 .drop-icon {
-    font-size: 42px;
+    font-size: 36px;
     margin-bottom: 12px;
 }
 
 .drop-title {
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 600;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
 
 .drop-subtitle {
-    color: var(--muted);
+    color: var(--text-muted);
     font-size: 13px;
-    line-height: 1.5;
 }
 
 #fileInput { display: none; }
@@ -143,174 +146,224 @@ header .brand-line {
     gap: 12px;
     margin-top: 16px;
     padding: 12px;
-    background: var(--soft);
-    border-radius: 12px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 10px;
     border: 1px solid var(--border);
 }
 
-.file-icon { font-size: 24px; }
-.file-name { font-weight: 600; font-size: 14px; word-break: break-all; }
-.file-size { color: var(--muted); font-size: 12px; margin-top: 2px; }
+.file-icon { font-size: 20px; }
+.file-name { font-weight: 600; font-size: 13px; word-break: break-all; }
+.file-size { color: var(--text-muted); font-size: 12px; margin-top: 2px; }
 
-.buttons {
+.actions {
     display: flex;
-    gap: 12px;
-    margin-top: 18px;
+    gap: 10px;
+    margin-top: 16px;
     flex-wrap: wrap;
 }
 
-.btn-primary, .btn-success, .btn-secondary {
+.btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    padding: 12px 22px;
-    border-radius: 12px;
-    font-size: 15px;
+    gap: 6px;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 14px;
     font-weight: 600;
     border: none;
     cursor: pointer;
-    transition: 0.2s;
+    transition: all 0.2s;
     text-decoration: none;
     font-family: inherit;
 }
 
-.btn-primary { background: var(--primary); color: white; }
-.btn-primary:hover { background: var(--primary-dark); }
-.btn-success { background: var(--success); color: white; }
-.btn-success:hover { background: #15803d; }
-.btn-success:disabled { opacity: 0.5; cursor: not-allowed; }
-.btn-secondary { background: #e2e8f0; color: var(--text); }
-.btn-secondary:hover { background: #cbd5e1; }
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-hover); }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-secondary { background: var(--border); color: var(--text); }
+.btn-secondary:hover { background: var(--card-hover); }
+.btn-danger { background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.3); }
+.btn-danger:hover { background: rgba(239, 68, 68, 0.2); }
 
 .hidden { display: none !important; }
 
 .status {
-    margin-top: 16px;
-    padding: 12px 16px;
-    border-radius: 12px;
-    font-size: 14px;
+    margin-top: 14px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 13px;
     line-height: 1.5;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.status.success { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
-.status.error   { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
-.status.info    { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+.status.success { background: rgba(16, 185, 129, 0.1); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.2); }
+.status.error { background: rgba(239, 68, 68, 0.1); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.2); }
 
 .stats {
     display: flex;
-    gap: 12px;
+    gap: 10px;
     margin-top: 16px;
-    flex-wrap: wrap;
 }
 
 .stat {
     flex: 1;
-    min-width: 100px;
     text-align: center;
     padding: 12px;
-    background: var(--soft);
-    border-radius: 12px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 10px;
     border: 1px solid var(--border);
 }
 
 .stat-number {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 700;
     color: var(--primary);
 }
 
 .stat-label {
-    font-size: 12px;
-    color: var(--muted);
+    font-size: 11px;
+    color: var(--text-muted);
     margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.preview {
-    margin-top: 16px;
-    background: #0f172a;
-    color: #e2e8f0;
-    padding: 14px;
+/* Khung xem trước SRT */
+.preview-box {
+    background: #020617;
+    border: 1px solid var(--border);
     border-radius: 12px;
-    font-family: 'Courier New', monospace;
-    font-size: 12px;
-    max-height: 220px;
-    overflow: auto;
+    padding: 16px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #e2e8f0;
+    max-height: 500px;
+    overflow-y: auto;
     white-space: pre-wrap;
     word-break: break-word;
-    line-height: 1.5;
+}
+
+.preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+.preview-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.copy-btn {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+}
+
+.copy-btn:hover {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
 }
 
 .footer {
     text-align: center;
-    color: var(--muted);
+    color: var(--text-muted);
     font-size: 12px;
-    padding: 14px 0 4px;
-}
-
-@media (max-width: 600px) {
-    .buttons { flex-direction: column; }
-    .btn-primary, .btn-success, .btn-secondary { width: 100%; }
+    padding: 30px 0 10px;
 }
 </style>
 </head>
 <body>
 
-<div class="container">
+<div class="app-container">
     <header>
-        <div class="brand-line">LAYSRT • VIETSUB TOOL</div>
-        <h1>🎬 CapCut JSON → SRT</h1>
-        <p>Chuyển file JSON CapCut thành phụ đề SRT chỉ trong vài giây. Không cần cài đặt, không cần API.</p>
+        <h1>🎬 LaySRT Pro</h1>
+        <p>Chuyển file JSON CapCut thành phụ đề SRT chuẩn xác. Không quảng cáo, không theo dõi.</p>
     </header>
 
-    <section class="card">
-        <h2 class="card-title"><span class="step">1</span> Chọn file CapCut JSON</h2>
+    <div class="main-grid">
+        <!-- CỘT TRÁI: TẢI FILE VÀ CẤU HÌNH -->
+        <div class="left-column">
+            <section class="card">
+                <h2 class="card-title"><span class="step">1</span> Chọn file CapCut JSON</h2>
 
-        <label class="drop-zone" id="dropZone" for="fileInput" tabindex="0">
-            <div class="drop-icon">📂</div>
-            <div class="drop-title">Kéo thả file JSON vào đây</div>
-            <div class="drop-subtitle">hoặc chạm để chọn file<br>Hỗ trợ draft_content.json và các JSON CapCut tương thích</div>
-        </label>
+                <label class="drop-zone" id="dropZone" for="fileInput" tabindex="0">
+                    <div class="drop-icon">📂</div>
+                    <div class="drop-title">Kéo thả file JSON vào đây</div>
+                    <div class="drop-subtitle">hoặc chạm để chọn file<br>Hỗ trợ draft_content.json</div>
+                </label>
 
-        <input type="file" id="fileInput" accept=".json,application/json,text/json,text/plain,*/*">
+                <input type="file" id="fileInput" accept=".json,application/json,text/json,text/plain,*/*">
 
-        <div id="fileInfo" class="file-info hidden">
-            <div class="file-icon">📄</div>
-            <div>
-                <div id="fileName" class="file-name"></div>
-                <div id="fileSize" class="file-size"></div>
-            </div>
+                <div id="fileInfo" class="file-info hidden">
+                    <div class="file-icon">📄</div>
+                    <div>
+                        <div id="fileName" class="file-name"></div>
+                        <div id="fileSize" class="file-size"></div>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <label class="btn btn-primary" for="fileInput">📁 Chọn file JSON</label>
+                    <button id="convertBtn" type="button" class="btn btn-primary" disabled>⚙️ Xuất file SRT</button>
+                    <button id="resetBtn" type="button" class="btn btn-secondary hidden">🔄 Làm lại</button>
+                </div>
+
+                <div id="status" class="status hidden"></div>
+
+                <div id="stats" class="stats hidden">
+                    <div class="stat">
+                        <div id="subtitleCount" class="stat-number">0</div>
+                        <div class="stat-label">Dòng phụ đề</div>
+                    </div>
+                    <div class="stat">
+                        <div id="durationInfo" class="stat-number">00:00</div>
+                        <div class="stat-label">Thời lượng</div>
+                    </div>
+                </div>
+            </section>
         </div>
 
-        <div class="buttons">
-            <label class="btn-primary" for="fileInput">📁 Chọn file JSON</label>
-            <button id="convertBtn" type="button" class="btn-success" disabled>⚙️ Chuyển sang SRT</button>
-            <button id="resetBtn" type="button" class="btn-secondary hidden">🔄 Làm lại</button>
+        <!-- CỘT PHẢI: XEM TRƯỚC SRT -->
+        <div class="right-column">
+            <section class="card">
+                <div class="preview-header">
+                    <div class="preview-title">👁️ Xem trước file SRT</div>
+                    <button id="copyBtn" class="copy-btn hidden" onclick="copySRT()">📋 Copy toàn bộ</button>
+                </div>
+                <div id="preview" class="preview-box">
+                    <span style="color: var(--text-muted); font-style: italic;">Chưa có dữ liệu. Hãy tải file JSON lên để xem trước...</span>
+                </div>
+            </section>
         </div>
+    </div>
 
-        <div id="status" class="status hidden"></div>
-
-        <div id="stats" class="stats hidden">
-            <div class="stat">
-                <div id="subtitleCount" class="stat-number">0</div>
-                <div class="stat-label">Phụ đề</div>
-            </div>
-            <div class="stat">
-                <div id="durationInfo" class="stat-number">00:00</div>
-                <div class="stat-label">Thời lượng</div>
-            </div>
-        </div>
-
-        <div id="preview" class="preview hidden"></div>
-    </section>
-
-    <div class="footer">Made with ❤️ — chỉ chuyển đổi, không dịch</div>
+    <div class="footer">Made with ❤️ — LaySRT Pro</div>
 </div>
 
 <script>
 /* ============ BIẾN TOÀN CỤC ============ */
 let capcutData = null;
 let subtitles = [];
+let fullSRT = "";
 
 /* ============ DOM ============ */
 const fileInput   = document.getElementById('fileInput');
@@ -323,6 +376,7 @@ const resetBtn    = document.getElementById('resetBtn');
 const statusBox   = document.getElementById('status');
 const statsBox    = document.getElementById('stats');
 const previewBox  = document.getElementById('preview');
+const copyBtn     = document.getElementById('copyBtn');
 const subtitleCount = document.getElementById('subtitleCount');
 const durationInfo  = document.getElementById('durationInfo');
 
@@ -363,10 +417,16 @@ function handleFile(file) {
                 return;
             }
 
-            showStatus(`Đã đọc ${subtitles.length} dòng phụ đề. Nhấn "Chuyển sang SRT" để tải về.`, 'success');
+            showStatus(`Đã đọc ${subtitles.length} dòng phụ đề. Nhấn "Xuất file SRT" để tải về.`, 'success');
             updateStats(subtitles);
+            
+            // Tạo sẵn SRT và hiển thị lên khung xem trước
+            fullSRT = generateSRT(subtitles);
+            updatePreview(fullSRT);
+            
             convertBtn.disabled = false;
             resetBtn.classList.remove('hidden');
+            copyBtn.classList.remove('hidden');
         } catch (err) {
             showStatus('File JSON không hợp lệ: ' + err.message, 'error');
             convertBtn.disabled = true;
@@ -376,7 +436,7 @@ function handleFile(file) {
     reader.readAsText(file, 'utf-8');
 }
 
-/* ============ TRÍCH XUẤT PHỤ ĐỀ TỪ CAPCUT JSON (FIX LỖI THỜI GIAN) ============ */
+/* ============ TRÍCH XUẤT PHỤ ĐỀ TỪ CAPCUT JSON ============ */
 function extractSubtitles(data) {
     const results = [];
     const textMap = {};
@@ -394,14 +454,13 @@ function extractSubtitles(data) {
     // 2. Quét qua các tracks để lấy thời gian và liên kết với chữ
     if (Array.isArray(data.tracks)) {
         data.tracks.forEach(track => {
-            // Chỉ xử lý các track chứa chữ (text)
+            // Chỉ xử lý các track chứa chữ (text hoặc subtitle)
             if ((track.type === 'text' || track.type === 'subtitle') && Array.isArray(track.segments)) {
                 track.segments.forEach(seg => {
                     const content = textMap[seg.material_id];
                     if (!content) return;
 
-                    // CapCut lưu thời gian bằng micro-giây (1 giây = 1.000.000)
-                    // Cần chia cho 1000 để đổi sang mili-giây cho chuẩn SRT
+                    // CapCut lưu thời gian bằng micro-giây
                     let start = 0;
                     let duration = 0;
 
@@ -413,13 +472,13 @@ function extractSubtitles(data) {
                         duration = Number(seg.source_timerange.duration || 0);
                     }
 
-                    // Đổi từ micro-giây sang mili-giây
-                    start = Math.floor(start / 1000);
-                    duration = Math.floor(duration / 1000);
+                    // Chuyển từ micro-giây sang mili-giây, làm tròn để khớp với file gốc
+                    const startMs = Math.round(start / 1000);
+                    const durationMs = Math.round(duration / 1000);
 
                     results.push({
-                        start: start,
-                        end: start + duration,
+                        start: startMs,
+                        end: startMs + durationMs,
                         content: content
                     });
                 });
@@ -427,13 +486,13 @@ function extractSubtitles(data) {
         });
     }
 
-    // 3. Dự phòng cho các file JSON cũ hoặc cấu trúc khác (nếu cách trên không tìm thấy gì)
+    // 3. Dự phòng cho các file JSON cũ hoặc cấu trúc khác
     if (results.length === 0 && data.materials && Array.isArray(data.materials.texts)) {
         data.materials.texts.forEach(t => {
             const content = extractTextContent(t);
             if (!content) return;
-            const start = Number(t.start || 0);
-            const duration = Number(t.duration || 0);
+            const start = Math.round(Number(t.start || 0) / 1000);
+            const duration = Math.round(Number(t.duration || 0) / 1000);
             results.push({ start, end: start + duration, content });
         });
     }
@@ -446,9 +505,7 @@ function extractSubtitles(data) {
 }
 
 function extractTextContent(item) {
-    // CapCut lưu text trong nhiều field khác nhau tùy phiên bản
     if (item.content) {
-        // content có thể là string JSON chứa "text"
         if (typeof item.content === 'string') {
             const trimmed = item.content.trim();
             if (trimmed.startsWith('{')) {
@@ -465,7 +522,6 @@ function extractTextContent(item) {
     }
     if (item.text) return String(item.text).trim();
     if (item.words && Array.isArray(item.words)) {
-        // Một số bản CapCut tách chữ theo từ
         return item.words.map(w => w.text || w.word || '').join('').trim();
     }
     return '';
@@ -488,19 +544,30 @@ function formatTime(ms) {
     const h  = String(Math.floor(totalSec / 3600)).padStart(2, '0');
     const m  = String(Math.floor((totalSec % 3600) / 60)).padStart(2, '0');
     const s  = String(totalSec % 60).padStart(2, '0');
-    const msPart = String(Math.round(ms % 1000)).padStart(3, '0').slice(0, 3);
+    const msPart = String(ms % 1000).padStart(3, '0');
     return `${h}:${m}:${s},${msPart}`;
 }
 
-/* ============ NÚT CHUYỂN SRT ============ */
+/* ============ CẬP NHẬT GIAO DIỆN XEM TRƯỚC ============ */
+function updatePreview(srtContent) {
+    // Hiển thị 20 dòng đầu để tránh lag trình duyệt
+    const lines = srtContent.split('\n');
+    const previewText = lines.slice(0, 60).join('\n');
+    const suffix = lines.length > 60 ? '\n\n... (còn rất nhiều dòng nữa, hãy bấm Xuất file SRT để tải toàn bộ)' : '';
+    
+    previewBox.innerHTML = `<span style="color:#34d399;">${escapeHtml(previewText)}</span>${suffix ? `<span style="color:var(--text-muted);">${escapeHtml(suffix)}</span>` : ''}`;
+}
+
+function escapeHtml(text) {
+    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+/* ============ NÚT XUẤT SRT ============ */
 convertBtn.addEventListener('click', () => {
     if (!subtitles.length) return;
 
-    const srt = generateSRT(subtitles);
-
-    // Tên file: ưu tiên tên gốc + .srt
     const baseName = (fileName.textContent || 'draft_content').replace(/\.json$/i, '');
-    downloadFile(srt, baseName + '.srt');
+    downloadFile(fullSRT, baseName + '.srt');
 
     showStatus(`✅ Đã tạo file ${baseName}.srt với ${subtitles.length} dòng phụ đề.`, 'success');
 });
@@ -517,6 +584,24 @@ function downloadFile(content, filename) {
     setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
+/* ============ NÚT COPY ============ */
+function copySRT() {
+    if (!fullSRT) return;
+    navigator.clipboard.writeText(fullSRT).then(() => {
+        const originalText = copyBtn.textContent;
+        copyBtn.textContent = '✅ Đã copy!';
+        copyBtn.style.background = 'var(--primary)';
+        copyBtn.style.color = '#fff';
+        setTimeout(() => {
+            copyBtn.textContent = originalText;
+            copyBtn.style.background = '';
+            copyBtn.style.color = '';
+        }, 2000);
+    }).catch(err => {
+        alert('Không thể copy: ' + err);
+    });
+}
+
 /* ============ NÚT LÀM LẠI ============ */
 resetBtn.addEventListener('click', () => {
     resetUI(true);
@@ -525,12 +610,14 @@ resetBtn.addEventListener('click', () => {
 function resetUI(clearFileInput) {
     capcutData = null;
     subtitles = [];
+    fullSRT = "";
     convertBtn.disabled = true;
     statusBox.classList.add('hidden');
     statsBox.classList.add('hidden');
-    previewBox.classList.add('hidden');
     fileInfo.classList.add('hidden');
     resetBtn.classList.add('hidden');
+    copyBtn.classList.add('hidden');
+    previewBox.innerHTML = '<span style="color: var(--text-muted); font-style: italic;">Chưa có dữ liệu. Hãy tải file JSON lên để xem trước...</span>';
     if (clearFileInput) {
         fileInput.value = '';
     }
@@ -548,11 +635,6 @@ function updateStats(subs) {
     const totalMs = subs.reduce((max, s) => Math.max(max, s.end), 0);
     durationInfo.textContent = formatDuration(totalMs);
     statsBox.classList.remove('hidden');
-
-    // Preview 15 dòng đầu
-    const preview = generateSRT(subs.slice(0, 15));
-    previewBox.textContent = preview + (subs.length > 15 ? `\n... (còn ${subs.length - 15} dòng nữa)` : '');
-    previewBox.classList.remove('hidden');
 }
 
 function formatDuration(ms) {
