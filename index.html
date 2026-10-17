@@ -11,17 +11,14 @@
 :root {
     --bg-deep: #0a0118;
     --bg-purple: #1a0b2e;
-    --bg-purple-light: #2d1b4e;
     --card: rgba(20, 10, 40, 0.85);
     --card-inner: #0d0520;
     --border-outer: #2a2a3e;
-    --border-inner: #1a1a2e;
     --text: #f0e8ff;
     --text-muted: #a89bc4;
     --primary: #a855f7;
     --primary-hover: #c084fc;
     --primary-glow: rgba(168, 85, 247, 0.4);
-    --accent: #7c3aed;
     --success: #4ade80;
     --danger: #f87171;
 }
@@ -68,20 +65,14 @@ body {
         radial-gradient(ellipse at 50% 50%, rgba(45, 27, 78, 0.6) 0%, transparent 70%),
         linear-gradient(180deg, #0a0118 0%, #1a0b2e 50%, #0a0118 100%);
     background-attachment: fixed;
-    background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%,
-                     100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%,
-                     100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%,
-                     100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%,
-                     100% 100%, 100% 100%, 100% 100%, 100% 100%;
     background-repeat: no-repeat;
 }
 
 .app-container {
-    max-width: 1100px;
+    max-width: 1000px;
     margin: 0 auto;
 }
 
-/* ==== HEADER ==== */
 header {
     text-align: center;
     margin-bottom: 24px;
@@ -106,14 +97,12 @@ header p {
     font-size: 14px;
 }
 
-/* ==== BỐ CỤC 2 KHUNG TRÊN DƯỚI ==== */
 .main-stack {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-/* ==== KHUNG (viền ngoài đen xám, nền tím đen) ==== */
 .frame {
     border: 3px solid var(--border-outer);
     border-radius: 20px;
@@ -136,7 +125,7 @@ header p {
     background: var(--card);
     border-radius: 14px;
     padding: 22px;
-    border: 1px solid var(--border-inner);
+    border: 1px solid #1a1a2e;
     backdrop-filter: blur(10px);
     position: relative;
     z-index: 1;
@@ -172,7 +161,6 @@ header p {
     font-weight: 800;
 }
 
-/* ==== DROP ZONE ==== */
 .drop-zone {
     display: flex;
     flex-direction: column;
@@ -213,7 +201,7 @@ header p {
 }
 
 .file-icon { font-size: 20px; }
-.file-name { font-weight: 600; font-size: 13px; word-break: break-all; color: var(--text); }
+.file-name { font-weight: 600; font-size: 13px; word-break: break-all; }
 .file-size { color: var(--text-muted); font-size: 12px; margin-top: 2px; }
 
 .actions {
@@ -306,7 +294,6 @@ header p {
     letter-spacing: 1px;
 }
 
-/* ==== KHUNG XEM TRƯỚC SRT ==== */
 .preview-header {
     display: flex;
     justify-content: space-between;
@@ -316,10 +303,7 @@ header p {
     gap: 10px;
 }
 
-.preview-meta {
-    color: var(--text-muted);
-    font-size: 12px;
-}
+.preview-meta { color: var(--text-muted); font-size: 12px; }
 
 .copy-btn {
     background: rgba(168, 85, 247, 0.15);
@@ -356,7 +340,6 @@ header p {
     box-shadow: inset 0 0 40px rgba(168, 85, 247, 0.05);
 }
 
-/* Scrollbar vũ trụ - to hơn */
 .preview-box::-webkit-scrollbar { width: 18px; }
 .preview-box::-webkit-scrollbar-track {
     background: rgba(0,0,0,0.4);
@@ -375,19 +358,9 @@ header p {
     box-shadow: 0 0 20px rgba(168, 85, 247, 0.9);
 }
 
-.srt-line-num {
-    color: #7c3aed;
-    font-weight: 700;
-}
-
-.srt-time {
-    color: #a855f7;
-    font-weight: 600;
-}
-
-.srt-text {
-    color: #e0d8f0;
-}
+.srt-line-num { color: #7c3aed; font-weight: 700; }
+.srt-time { color: #a855f7; font-weight: 600; }
+.srt-text { color: #e0d8f0; }
 
 .empty-msg {
     color: var(--text-muted);
@@ -426,12 +399,11 @@ header p {
 <div class="app-container">
     <header>
         <h1>🌌 LaySRT Cosmos</h1>
-        <p>Chuyển file JSON CapCut thành phụ đề SRT chuẩn xác — giữa muôn vì sao</p>
+        <p>Chuyển file JSON CapCut thành phụ đề SRT chuẩn xác</p>
     </header>
 
     <div class="main-stack">
-
-        <!-- ==== KHUNG TRÊN: TẢI FILE ==== -->
+        <!-- KHUNG 1: TẢI FILE -->
         <div class="frame">
             <div class="frame-inner">
                 <div class="frame-label"><span class="num">1</span> Tải file CapCut JSON</div>
@@ -454,7 +426,7 @@ header p {
 
                 <div class="actions">
                     <label class="btn btn-primary" for="fileInput">📁 Chọn file JSON</label>
-                    <button id="convertBtn" type="button" class="btn btn-primary" disabled>⚙️ Xuất file SRT</button>
+                    <button id="convertBtn" type="button" class="btn btn-primary" disabled>⚙️ Chuyển sang SRT</button>
                     <button id="resetBtn" type="button" class="btn btn-secondary hidden">🔄 Làm lại</button>
                 </div>
 
@@ -473,7 +445,7 @@ header p {
             </div>
         </div>
 
-        <!-- ==== KHUNG DƯỚI: XEM TRƯỚC SRT ==== -->
+        <!-- KHUNG 2: XEM TRƯỚC SRT -->
         <div class="frame">
             <div class="frame-inner">
                 <div class="frame-label"><span class="num">2</span> Xem trước file SRT</div>
@@ -486,19 +458,17 @@ header p {
                 <div id="preview" class="preview-box">
                     <div class="empty-msg">
                         <span class="icon">✨</span>
-                        Chưa có dữ liệu. Hãy tải file JSON lên để xem trước toàn bộ phụ đề...
+                        Chưa có dữ liệu. Hãy tải file JSON lên để xem trước phụ đề...
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 
     <div class="footer">Made with 💜 — LaySRT Cosmos</div>
 </div>
 
 <script>
-let capcutData = null;
 let subtitles = [];
 let fullSRT = "";
 
@@ -540,19 +510,29 @@ function handleFile(file) {
     const reader = new FileReader();
     reader.onload = ev => {
         try {
-            capcutData = JSON.parse(ev.target.result);
-            subtitles = extractSubtitles(capcutData);
+            let content = ev.target.result.replace(/^\uFEFF/, '').trim();
+            if (!content) throw new Error("File JSON đang trống.");
+            
+            const data = JSON.parse(content);
+            const result = [];
+            const seen = new Set();
+            
+            // Sử dụng thuật toán trích xuất chuẩn xác của bạn
+            extractSubs(data, result, seen);
+            result.sort((a, b) => a.startMs - b.startMs);
+            
+            subtitles = result;
 
             if (!subtitles.length) {
-                showStatus('Không tìm thấy phụ đề trong file JSON này. Hãy chắc chắn đây là file draft_content.json của CapCut.', 'error');
+                showStatus('Không tìm thấy phụ đề trong file JSON này.', 'error');
                 convertBtn.disabled = true;
                 return;
             }
 
-            showStatus(`Đã đọc ${subtitles.length} dòng phụ đề. Nhấn "Xuất file SRT" để tải về.`, 'success');
+            showStatus(`Đã đọc ${subtitles.length} dòng phụ đề. Nhấn "Chuyển sang SRT" để tải về.`, 'success');
             updateStats(subtitles);
             
-            fullSRT = generateSRT(subtitles);
+            fullSRT = subtitlesToSrt(subtitles);
             renderFullPreview(subtitles);
             
             convertBtn.disabled = false;
@@ -567,110 +547,152 @@ function handleFile(file) {
     reader.readAsText(file, 'utf-8');
 }
 
-function extractSubtitles(data) {
-    const results = [];
-    const textMap = {};
-
-    if (data.materials && Array.isArray(data.materials.texts)) {
-        data.materials.texts.forEach(t => {
-            const content = extractTextContent(t);
-            if (content) textMap[t.id] = content;
-        });
+/* =========================================================
+   THUẬT TOÁN TRÍCH XUẤT TỪ FILE JSON GỐC CỦA BẠN
+========================================================= */
+function parseMaybeJSON(value) {
+    let result = value;
+    for (let i = 0; i < 4; i++) {
+        if (typeof result !== 'string') break;
+        const text = result.trim();
+        if (!text) return null;
+        try { result = JSON.parse(text); } catch { break; }
     }
-
-    if (Array.isArray(data.tracks)) {
-        data.tracks.forEach(track => {
-            if ((track.type === 'text' || track.type === 'subtitle') && Array.isArray(track.segments)) {
-                track.segments.forEach(seg => {
-                    const content = textMap[seg.material_id];
-                    if (!content) return;
-
-                    let start = 0, duration = 0;
-                    if (seg.target_timerange) {
-                        start = Number(seg.target_timerange.start || 0);
-                        duration = Number(seg.target_timerange.duration || 0);
-                    } else if (seg.source_timerange) {
-                        start = Number(seg.source_timerange.start || 0);
-                        duration = Number(seg.source_timerange.duration || 0);
-                    }
-
-                    // Math.floor để khớp chuẩn SRT (không làm tròn lên gây lệch 1ms)
-                    const startMs = Math.floor(start / 1000);
-                    const durationMs = Math.floor(duration / 1000);
-
-                    results.push({
-                        start: startMs,
-                        end: startMs + durationMs,
-                        content: content
-                    });
-                });
-            }
-        });
-    }
-
-    if (results.length === 0 && data.materials && Array.isArray(data.materials.texts)) {
-        data.materials.texts.forEach(t => {
-            const content = extractTextContent(t);
-            if (!content) return;
-            const start = Math.floor(Number(t.start || 0) / 1000);
-            const duration = Math.floor(Number(t.duration || 0) / 1000);
-            results.push({ start, end: start + duration, content });
-        });
-    }
-
-    results.sort((a, b) => a.start - b.start);
-    return results.filter(r => r.content && r.content.trim() !== '');
+    return result;
 }
 
-function extractTextContent(item) {
-    if (item.content) {
-        if (typeof item.content === 'string') {
-            const trimmed = item.content.trim();
-            if (trimmed.startsWith('{')) {
-                try {
-                    const parsed = JSON.parse(trimmed);
-                    if (parsed.text) return String(parsed.text).trim();
-                } catch (e) {}
-            }
-            return trimmed;
-        }
-        if (typeof item.content === 'object' && item.content.text) {
-            return String(item.content.text).trim();
-        }
-    }
-    if (item.text) return String(item.text).trim();
-    if (item.words && Array.isArray(item.words)) {
-        return item.words.map(w => w.text || w.word || '').join('').trim();
-    }
+function getWordText(words, index) {
+    if (Array.isArray(words?.text)) return String(words.text[index] ?? '').trim();
     return '';
 }
 
-function generateSRT(subs) {
-    let srt = '';
-    subs.forEach((sub, i) => {
-        srt += (i + 1) + '\n';
-        srt += formatTime(sub.start) + ' --> ' + formatTime(sub.end) + '\n';
-        srt += sub.content + '\n\n';
-    });
-    return srt;
+function extractWordTiming(words) {
+    let startMs = null, endMs = null;
+    if (words && Array.isArray(words.start_time) && Array.isArray(words.end_time)) {
+        const count = Math.max(words.start_time.length, words.end_time.length);
+        for (let i = 0; i < count; i++) {
+            const text = getWordText(words, i);
+            const start = Number(words.start_time[i]);
+            if (text && Number.isFinite(start)) { startMs = start; break; }
+        }
+        for (let i = count - 1; i >= 0; i--) {
+            const text = getWordText(words, i);
+            const end = Number(words.end_time[i]);
+            if (text && Number.isFinite(end)) { endMs = end; break; }
+        }
+    }
+    if (Array.isArray(words)) {
+        for (const word of words) {
+            if (!word || typeof word !== 'object') continue;
+            const text = String(word.text ?? '').trim();
+            const start = Number(word.start_time);
+            if (text && Number.isFinite(start)) { startMs = start; break; }
+        }
+        for (let i = words.length - 1; i >= 0; i--) {
+            const word = words[i];
+            if (!word || typeof word !== 'object') continue;
+            const text = String(word.text ?? '').trim();
+            const end = Number(word.end_time);
+            if (text && Number.isFinite(end)) { endMs = end; break; }
+        }
+    }
+    return { startMs, endMs };
 }
 
-function formatTime(ms) {
-    if (ms < 0) ms = 0;
-    const totalSec = Math.floor(ms / 1000);
-    const h  = String(Math.floor(totalSec / 3600)).padStart(2, '0');
-    const m  = String(Math.floor((totalSec % 3600) / 60)).padStart(2, '0');
-    const s  = String(totalSec % 60).padStart(2, '0');
-    const msPart = String(Math.floor(ms % 1000)).padStart(3, '0');
-    return `${h}:${m}:${s},${msPart}`;
+function addSubtitle(result, seen, text, startMs, endMs) {
+    text = String(text ?? '').trim();
+    if (!text) return;
+    startMs = Number(startMs); endMs = Number(endMs);
+    if (!Number.isFinite(startMs)) startMs = 0;
+    if (!Number.isFinite(endMs)) endMs = 0;
+    if (endMs <= startMs) endMs = startMs + 1;
+
+    const key = Math.round(startMs) + '|' + Math.round(endMs) + '|' + text;
+    if (seen.has(key)) return;
+    seen.add(key);
+    result.push({ text, startMs, endMs });
 }
 
-/* ==== HIỂN THỊ TOÀN BỘ SRT (có màu) ==== */
+function processSentence(sentence, result, seen) {
+    if (!sentence || typeof sentence !== 'object') return;
+    const text = String(sentence.text ?? '').trim();
+    if (!text) return;
+
+    let startMs = Number(sentence.start_time);
+    let endMs = Number(sentence.end_time);
+    if (!Number.isFinite(startMs)) startMs = 0;
+    if (!Number.isFinite(endMs)) endMs = 0;
+
+    if (sentence.words !== undefined) {
+        const timing = extractWordTiming(sentence.words);
+        if (timing.startMs !== null) startMs = timing.startMs;
+        if (timing.endMs !== null) endMs = timing.endMs;
+    }
+    addSubtitle(result, seen, text, startMs, endMs);
+}
+
+function extractSubs(obj, result, seen) {
+    if (!obj || typeof obj !== 'object') return;
+
+    if (Object.prototype.hasOwnProperty.call(obj, 'subtitle_cache_info')) {
+        const cache = parseMaybeJSON(obj.subtitle_cache_info);
+        if (cache && typeof cache === 'object' && Array.isArray(cache.sentence_list)) {
+            for (const sentence of cache.sentence_list) {
+                processSentence(sentence, result, seen);
+            }
+        }
+    }
+
+    if (Array.isArray(obj)) {
+        for (const item of obj) extractSubs(item, result, seen);
+    } else {
+        for (const value of Object.values(obj)) {
+            if (value && typeof value === 'object') extractSubs(value, result, seen);
+        }
+    }
+}
+
+/* =========================================================
+   XỬ LÝ THỜI GIAN VÀ TẠO SRT
+========================================================= */
+function msToSrtTime(ms) {
+    ms = Number(ms);
+    if (!Number.isFinite(ms)) ms = 0;
+    ms = Math.max(0, Math.round(ms));
+    const hours = Math.floor(ms / 3600000);
+    const minutes = Math.floor((ms % 3600000) / 60000);
+    const seconds = Math.floor((ms % 60000) / 1000);
+    const millis = ms % 1000;
+    return String(hours).padStart(2, '0') + ':' + String(minutes).padStart(2, '0') + ':' + String(seconds).padStart(2, '0') + ',' + String(millis).padStart(3, '0');
+}
+
+function normalizeSubText(text) {
+    return String(text == null ? '' : text)
+        .replace(/\r\n?/g, '\n')
+        .split('\n')
+        .map(line => line.trimEnd())
+        .filter(line => line.trim() !== '')
+        .join('\n')
+        .trim();
+}
+
+function subtitlesToSrt(list) {
+    const out = new Array(list.length);
+    for (let i = 0; i < list.length; i++) {
+        const item = list[i];
+        out[i] = (i + 1) + '\r\n' + msToSrtTime(item.startMs) + ' --> ' + msToSrtTime(item.endMs) + '\r\n' + normalizeSubText(item.text).replace(/\n/g, '\r\n') + '\r\n\r\n';
+    }
+    return out.join('');
+}
+
+/* =========================================================
+   GIAO DIỆN XEM TRƯỚC
+========================================================= */
 function renderFullPreview(subs) {
     const html = subs.map((sub, i) => {
         const num = `<span class="srt-line-num">${i + 1}</span>`;
-        const time = `<span class="srt-time">${formatTime(sub.start)} --&gt; ${formatTime(sub.end)}</span>`;
-        const text = `<span class="srt-text">${escapeHtml(sub.content)}</span>`;
+        const time = `<span class="srt-time">${msToSrtTime(sub.startMs)} --&gt; ${msToSrtTime(sub.endMs)}</span>`;
+        const text = `<span class="srt-text">${escapeHtml(sub.text)}</span>`;
         return `${num}\n${time}\n${text}`;
     }).join('\n\n');
 
@@ -679,12 +701,12 @@ function renderFullPreview(subs) {
 }
 
 function escapeHtml(text) {
-    return String(text)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;");
+    return String(text).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
+/* =========================================================
+   TẢI FILE VÀ RESET
+========================================================= */
 convertBtn.addEventListener('click', () => {
     if (!subtitles.length) return;
     const baseName = (fileName.textContent || 'draft_content').replace(/\.json$/i, '');
@@ -693,7 +715,7 @@ convertBtn.addEventListener('click', () => {
 });
 
 function downloadFile(content, filename) {
-    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+    const blob = new Blob(['\uFEFF' + content], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -716,7 +738,6 @@ function copySRT() {
 resetBtn.addEventListener('click', () => resetUI(true));
 
 function resetUI(clearFileInput) {
-    capcutData = null;
     subtitles = [];
     fullSRT = "";
     convertBtn.disabled = true;
@@ -726,7 +747,7 @@ function resetUI(clearFileInput) {
     resetBtn.classList.add('hidden');
     copyBtn.classList.add('hidden');
     previewMeta.textContent = 'Chưa có dữ liệu';
-    previewBox.innerHTML = `<div class="empty-msg"><span class="icon">✨</span>Chưa có dữ liệu. Hãy tải file JSON lên để xem trước toàn bộ phụ đề...</div>`;
+    previewBox.innerHTML = `<div class="empty-msg"><span class="icon">✨</span>Chưa có dữ liệu. Hãy tải file JSON lên để xem trước phụ đề...</div>`;
     if (clearFileInput) fileInput.value = '';
 }
 
@@ -738,18 +759,9 @@ function showStatus(msg, type) {
 
 function updateStats(subs) {
     subtitleCount.textContent = subs.length;
-    const totalMs = subs.reduce((max, s) => Math.max(max, s.end), 0);
-    durationInfo.textContent = formatDuration(totalMs);
+    const totalMs = subs.reduce((max, s) => Math.max(max, s.endMs), 0);
+    durationInfo.textContent = msToSrtTime(totalMs).slice(0, 5);
     statsBox.classList.remove('hidden');
-}
-
-function formatDuration(ms) {
-    const totalSec = Math.floor(ms / 1000);
-    const h = Math.floor(totalSec / 3600);
-    const m = Math.floor((totalSec % 3600) / 60);
-    const s = totalSec % 60;
-    if (h > 0) return `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-    return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
 }
 
 function formatFileSize(bytes) {
